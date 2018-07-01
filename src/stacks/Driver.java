@@ -3,21 +3,22 @@ package stacks;
 public class Driver {
 
 	public static void main(String[] args) {
-		
-		Queue q = new Queue();
-		q.insert(1);
-		q.insert(2);
-		q.insert(3);
-		q.insert(4);
-		
-		
-		System.out.println(q.peek());
-	     q.delete();
-	     System.out.println(q.peek());
-	     q.insert(5);
-		System.out.println(q.peek());
-		
+		// TODO Auto-generated method stub
 
+		Stack s = new Stack();
+		
+		System.out.println(s.isEmpty());
+		s.insert(1);
+		s.insert(2);
+		s.insert(3);
+		s.insert(4);
+		
+		System.out.println(s.peek());
+		s.delete();
+		
+		System.out.println(s.peek());
+		
+		System.out.println(s.isEmpty());
 	}
 
 }

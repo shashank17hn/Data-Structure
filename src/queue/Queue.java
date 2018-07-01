@@ -1,4 +1,4 @@
-package stacks;
+package queue;
 
 public class Queue {
 
