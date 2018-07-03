@@ -1,5 +1,10 @@
 package binaryserachtree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
+import javax.management.Query;
+
 public class Node {
 	
 	
@@ -94,6 +99,75 @@ public class Node {
 		}
 		System.out.println(data);
 		
+	}
+	
+	public boolean isBST(Node node) {
+		return isBSTUtils(node, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public boolean isBSTUtils(Node node, int min , int max) {
+		if(node == null) {
+			return true;
+		}
+		if(node.data <min || node.data > max) {
+			return false;
+		}
+		return (isBSTUtils(node.left, node.data -1, max) && isBSTUtils(node.right, min, node.data +1));
+	}
+	
+	public void levelOrderTraversalUsingQueue(Node node) {
+		Queue<Node> queue = new LinkedList<>();
+		queue.add(node);
+		while(!queue.isEmpty()) {
+			
+			Node tempNode = queue.poll();
+			System.out.print(tempNode.data + " , ");
+			
+			if(tempNode.left != null) {
+				queue.add(tempNode.left);
+			}
+			
+			if(tempNode.right != null) {
+				queue.add(tempNode.right);
+			}
+		}
+	}
+	
+	public void levelOrderTraversal(Node node) {
+		
+		int h = findHeight(node);
+		for(int i =0 ; i< h ; i++) {
+			levelOrderTraversalUtils(node, i);
+		}
+		
+	}
+	
+	public void levelOrderTraversalUtils(Node node , int level) {
+		
+		if(node == null)
+			return;
+		if(level == 1) {
+			System.out.print(node.data + " , ");
+		}	
+		else {
+			levelOrderTraversalUtils(node.left, level-1);
+			levelOrderTraversalUtils(node.right, level-1);
+		}
+		
+	}
+	
+	public int findHeight(Node node) {
+		if(node == null)
+			return 1;
+		else {
+			int lHeight = findHeight(node.left);
+			int rHeight = findHeight(node.right); 
+			
+			 if(lHeight > rHeight)
+				 return lHeight+1;
+			 else return rHeight+1;
+			
+		}
 	}
 
 }
