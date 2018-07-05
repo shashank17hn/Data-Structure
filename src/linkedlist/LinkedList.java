@@ -1,9 +1,13 @@
 package linkedlist;
 
+import java.util.HashSet;
+
 public class LinkedList {
 
 	Node head;
 	
+	
+	// inserting into a list from LAST
 	public void appendLast(int value) {
 		if(head == null) {
 			head = new Node(value);
@@ -18,7 +22,7 @@ public class LinkedList {
 		}
 	}
 	
-	
+	// inserting into a list from FIRST
 	public void appendFirst(int value) {
 		Node newHead = new Node(value);
 		newHead.next = head;
@@ -26,6 +30,7 @@ public class LinkedList {
 		
 	}
 	
+	// inserting into a list from GIVEN position
 	public void appendAt(int index , int value) {
 		if(index == 0) {
 			appendFirst(value);
@@ -42,6 +47,7 @@ public class LinkedList {
 		}
 	}
 	
+	// deleting given VALUE node
 	public void delete(int value) {
 		if(head == null) return;
 		if(head.data == value) {
@@ -58,6 +64,7 @@ public class LinkedList {
 		}
 	}
 	
+	// deleting give INDEX node
 	public void deleteAt(int index) {
 		 Node current = head;
 		if(index ==0) {
@@ -71,7 +78,7 @@ public class LinkedList {
 		}
 	}
 	
-	
+	// SORTING NOT WORKING YET
 	public void sortLinkedList() {
 		
 		Node current = head;
@@ -96,6 +103,8 @@ public class LinkedList {
 		
 	}
 	
+	
+	// Merging two sorted list
 	public void mergeSortedLinkedList(Node n1, Node n2) {
 		
 		Node head1 =  new Node(0);
@@ -131,22 +140,237 @@ public class LinkedList {
 	}
 	
 	
+	// just to display the list
 	public void showListMergedList(Node head1) {
 		Node current = head1;
-		System.out.println(current.data);
+		System.out.print(current.data + " ");
 		while(current.next != null) {
-			System.out.println(current.next.data);
+			System.out.print(current.next.data + " ");
 			current = current.next;
 		}
 	}
 	
+	// to show the list with head node
 	public void showList() {
 		Node current = head;
-		System.out.println(current.data);
+		System.out.print(current.data + " ");
 		while(current.next != null) {
-			System.out.println(current.next.data);
+			System.out.print(current.next.data + " ");
 			current = current.next;
 		}
 	}
+	
+	
+
+	// reverse list recursively
+	public void ReverseList() {
+		//Node tempHead = new Node(0);
+		Node result =ReverseListUtils(head);
+		showListMergedList(result); 
+		
+	}
+	// reverse list recursively used by above method
+	public Node ReverseListUtils(Node node) {
+		Node newHead = null;
+		if(node.next == null) {
+			 newHead = node;
+			 return newHead;
+		}
+		  newHead =ReverseListUtils(node.next);  // 5 (3)
+		    node.next.next = node;
+		    node.next = null;
+		  return newHead;
+			
+	}
+	
+	// reversing list iteratively
+	public void ReverseListIt() {
+		Node current = head;
+		Node previous = null;
+	
+		while(current!= null) {
+			Node nextNode = current.next;
+			current.next = previous;
+			previous = current;
+			current = nextNode;
+			
+		}
+		showListMergedList(previous);
+	}
+	
+	// adding two linked list
+	public Node Addition(Node n1 , Node n2) {
+		n1 =ReverseListUtils(n1);
+		n2 = ReverseListUtils(n2);
+		Node resultHead = new Node(0);
+		Node result = resultHead;
+		int carry =0;
+		while(n1 != null || n2 != null) {
+			int sum =0;
+			if(n1 != null && n2 != null) {
+			  sum =	n1.data + n2.data + carry;
+			    n1 = n1.next;
+				n2 = n2.next;
+			
+			}
+			else if(n1 == null) {
+			    sum = n2.data + carry;
+				carry /= sum;
+				sum = sum%10;
+				result.next = new Node(sum);
+			    n2 = n2.next;
+			}
+			else if(n2 == null) {
+			    sum = n1.data + carry;
+				carry /= sum;
+				sum = sum%10;
+				result.next = new Node(sum);
+			    n1 = n1.next;
+			}
+			carry = sum/10;
+			sum = sum%10;
+			result.next = new Node(sum);
+			result = result .next;
+		}
+		result = ReverseListUtils(resultHead.next);
+		showListMergedList(result);
+		return result;
+	}
+	
+	public void deleteKthElementFromLast2Pass(int k) {
+		Node current = head;
+		int len =1;
+		while(current.next != null) {
+			len++;
+			current = current.next;
+		}
+		current = head;
+		System.out.println("length " + len);
+		len = len-k;
+		if(len ==0) {
+			head = head.next;
+			return;
+		}
+		while(len >=1) {
+			len--;
+			current = current.next;
+			
+		}
+		current.next = current.next.next;
+	}
+	
+	
+	public void deleteKthElementFromLast1Pass(int k) {
+		Node fast = head;
+		Node slow = head;
+		
+		for(int i=0 ; i<k; i++) {
+			fast = fast.next;
+		}
+		//System.out.println("fast " + fast.data);
+		
+		
+		
+		if(fast == null) {
+			head = head.next;
+			return;
+		}
+		
+		while(fast.next != null) {
+			slow = slow.next;
+			fast = fast.next;
+		}
+		
+		slow.next = slow.next.next;
+		
+	}
+	
+	public void addOddAndEvenNodes() {
+		Node oddHead = new Node(0);
+		Node evenHead = new Node(0);
+		Node odd = oddHead;
+		Node even = evenHead;
+		Node current = head;
+		int len =0;
+		while(current != null) {
+			len++;
+			if(len%2 != 0) {
+				odd.next = new Node(current.data);
+				odd = odd.next;
+			}
+			
+			if(len%2 == 0) {
+				even.next = new Node(current.data);
+				even = even.next;
+			}
+		
+			current = current.next;
+					
+		}
+		
+		showListMergedList(oddHead.next);
+		System.out.println();
+		showListMergedList(evenHead.next);
+	}
+	
+	
+	public void removeDuplicates() {
+
+		Node current = head;
+		while(current!= null && current.next != null) {
+				if(current.data == current.next.data) {
+					// System.out.println(current.data + " " + current.next.data);
+					current.next = current.next.next;
+				}
+				//else {
+					current = current.next;
+			//	}
+				
+		}
+		
+		showListMergedList(head);
+	}
+	
+	public void removeDuplicatesFromUnsorted() {
+
+		Node current = head;
+		Node prev = null;
+		HashSet<Integer> nodeSet = new HashSet<>();
+		while(current!= null) {
+		
+			int curval = current.data;
+			if(nodeSet.contains(curval)) {
+				prev.next = current.next;
+			}else {
+				nodeSet.add(curval);
+				prev = current;
+			}
+			
+			current = current.next;
+				
+		}
+		
+		showListMergedList(head);
+	}
+	
+	public void swapNode() {
+		
+		
+		Node current = head;
+		Node resultHead = new Node(0);
+		while(current != null && current.next != null) {
+			int temp = current.data;
+			current.data = current.next.data;
+			current.next.data = temp;
+			current = current.next.next;
+		}
+		
+		showListMergedList(head);
+	}
+	
+	
+	
+	
+	
 	
 }
