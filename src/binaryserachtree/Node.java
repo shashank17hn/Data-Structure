@@ -1,9 +1,9 @@
 package binaryserachtree;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-
-import javax.management.Query;
+import java.util.Stack;
 
 public class Node {
 	
@@ -169,5 +169,331 @@ public class Node {
 			
 		}
 	}
+	
+	public void invertTree(Node root) {
+		
+		Node temp = root.left;
+		root.left = root.right;
+		root.right = temp;
+		
+		if(root.left!= null) {
+			invertTree(root.left);
+		}
+		
+		if(root.right != null) {
+			invertTree(root.right);
+		}
+		
+	}
+	
+	Stack<Integer>s = new Stack<>();
+	public boolean pathSum(Node root , int sum) {
+		
+		s.push(root.data);
+		boolean ans = pathSumUtils(root,sum);
+		System.out.println("data " + s);
+		return ans;
+	}
+	
+	public boolean pathSumUtils(Node root , int sum) {
+		if(root == null) {
+			//s.pop();
+			return false;
+		}
+	
+		else {
+			int subSum = sum - root.data;
+			boolean leftAns = false;
+			boolean rightAns = false;
+			
+			 if(subSum == 0 && root.left == null && root.right == null) {
+					return true;
+				}
+			  	if(root.left != null) {
+			  		System.out.println("root left "+ root.data);
+			  		leftAns	=pathSumUtils(root.left, subSum );
+			  		if(leftAns){
+			  			 s.push(root.left.data);
+			  		}
+			  	}
+			  	if(root.right != null) {
+			  		
+			  	  rightAns =pathSumUtils(root.right , subSum);
+			  	  if(rightAns)
+			  		s.push(root.right.data);
+			  	}
+			
+			return  leftAns||rightAns ;
+		}
+	}
+	
+	Stack<Node> kSmallestEle = new Stack<>(); 
+	Queue<Integer> kSmallestEle2 = new LinkedList(); 
+	
+	public int KsmallestElement(Node root , int k) {
+		KsmallestElementUtils(root);
+		for(int i=1 ; i<k; i++) {
+			kSmallestEle2.poll();
+		}
+		return kSmallestEle2.poll();
+	}
+	
+	public void KsmallestElementUtils(Node root ) {
+	
+		if(root.left!= null) {
+			KsmallestElementUtils(root.left);
 
+		}
+		
+		kSmallestEle2.offer(root.data);
+		
+		if(root.right!= null) {
+			KsmallestElementUtils(root.right);
+		}
+			
+	
+	}
+	
+	
+	public int KsmallestElement2(Node root , int k) {
+
+		while(!kSmallestEle.isEmpty() || root != null) {
+			if(root != null) {
+				kSmallestEle.push(root);
+				root = root.left;
+			}else {
+			   Node n = kSmallestEle.pop();
+			   k--;
+			   if(k==0) {
+				   return n.data;
+			   }
+			   root = n.right;
+				
+			}
+		
+		}	
+			return 0;
+		
+	}
+	
+	List<Integer> list = new LinkedList<>();
+	public void flattenTreeToLinkedList(Node root) {
+		list.add(root.data);
+		if(root.left!= null) {
+		  flattenTreeToLinkedList(root.left);
+		}
+		if(root.right!= null) {
+			  flattenTreeToLinkedList(root.right);
+		}
+	}
+	
+	
+	public Node arrayToBST(int [] arr , int start , int end) {
+		
+		if(start> end)
+			return null;
+		
+		int mid = (start+end)/2;
+		Node newRoot = new Node(arr[mid]);
+		newRoot.left = arrayToBST(arr, start, mid-1);
+		newRoot.right = arrayToBST(arr, mid+1, end);
+		return newRoot;
+		
+	}
+	
+	public Node inOrderPostOrderToBST(int[] inOrder, int[] postOrder) {
+		int inStart =0;
+		int inEnd = inOrder.length-1;
+		int postStart =0;
+		int postEnd =postOrder.length-1;	
+		Node newRoot = null;
+		return  newRoot = inOrderPostOrderToBSTUtils(inOrder, inStart, inEnd, postOrder, postStart, postEnd);
+	} 
+	
+	public Node inOrderPostOrderToBSTUtils(int[] inOrder , int inStart , int inEnd , int[] postOrder , int postStart , int postEnd) {
+		if(inStart> inEnd || postStart> postEnd)
+			return null;
+		
+		Node newRoot = new Node(postOrder[postEnd]);
+		
+		int k =0;
+		for(int i=0 ; i<inOrder.length ; i++) {
+			if(inOrder[i] == newRoot.data) {
+				k= i;
+			  break;	
+			}
+			
+		}
+		
+		newRoot.left = inOrderPostOrderToBSTUtils(inOrder, inStart, k-1, postOrder, postStart, postStart+k -(inStart+1));
+		newRoot.right = inOrderPostOrderToBSTUtils(inOrder, k+1, inEnd, postOrder, postStart+k-inStart, postEnd-1);
+		
+		return newRoot;
+	}
+	
+	
+	
+	
+	public Node inOrderPreOrderToBST(int[] inOrder, int[] preOrder) {
+		int inStart =0;
+		int inEnd = inOrder.length-1;
+		int preStart =0;
+		int preEnd =preOrder.length-1;	
+		Node newRoot = null;
+		return  newRoot = inOrderPreOrderToBSTUtils(inOrder, inStart, inEnd, preOrder, preStart, preEnd);
+	} 
+	
+	public Node inOrderPreOrderToBSTUtils(int[] inOrder , int inStart , int inEnd , int[] preOrder , int preStart , int preEnd) {
+		if(inStart> inEnd || preStart> preEnd)
+			return null;
+		
+		Node newRoot = new Node(preOrder[preStart]);
+		
+		int k =0;
+		for(int i=0 ; i<inOrder.length ; i++) {
+			if(inOrder[i] == newRoot.data) {
+				k= i;
+			  break;	
+			}
+			
+		}
+		
+		/*in-order:   4 2 5 (1) 6 7 3 8
+		pre-order: (1) 2 4 5  3 7 6 8*/
+		
+		newRoot.left = inOrderPreOrderToBSTUtils(inOrder, inStart, k-1, preOrder, preStart+1, preStart+(k-inStart));
+		newRoot.right = inOrderPreOrderToBSTUtils(inOrder, k+1, inEnd, preOrder, preStart+(k-inStart)+1, preEnd);
+		
+		
+		/* p.left = construct(preorder, preStart+1, preStart+(k-inStart), inorder, inStart, k-1);
+		    p.right= construct(preorder, preStart+(k-inStart)+1, preEnd, inorder, k+1 , inEnd);*/
+		return newRoot;
+	}
+	
+	
+	public boolean isTreeBalanced(Node node) {
+		if(node == null) {
+			return true;
+		}
+		int lh = height(node.left);
+		int rh = height(node.right);
+		
+		if(Math.abs(lh-rh)<=1 && isTreeBalanced(node.left) && isTreeBalanced(node.right)) {
+			return true;
+		}
+
+			return false;
+		
+		
+	}
+	
+	public int height(Node node) {
+		
+		if(node == null)
+			return 0;
+		 return 1 + Math.max(height(node.left), height(node.right));
+		
+	}
+	
+	public boolean isTreeSymmetric(Node root) {
+		if(root == null) {
+			return true;
+		}
+		return isTreeSymmetricUtils(root.left, root.right);
+		
+	}
+
+	public boolean isTreeSymmetricUtils(Node l, Node r) {
+		if(l.data != r.data) {
+			return false;
+		}
+		if(l == null || r ==  null) {
+			return false;
+		}
+		else if(l == null && r ==  null) {
+			return true;
+		}
+		if(!isTreeSymmetricUtils(l.left, r.right)) {
+			return false;
+		}
+		if(!isTreeSymmetricUtils(l.right, r.left)) {
+			return false;
+		}
+		return true;
+	}
+
+	public void printRightView(Node node) {
+		Queue<Node> q = new LinkedList<>();
+		q.add(node);
+		while(!q.isEmpty()) {
+			
+			int n= q.size();
+			for(int i =1; i<=n ;i++) {
+				
+				Node temp = q.poll();
+				if(n == i) {
+					System.out.println( temp.data + " ");
+				}
+				if(temp.left != null) {
+					q.add(temp.left);
+				}
+				if(temp.right !=null) {
+					q.add(temp.right);
+				}
+			}
+		}
+	}
+	
+	public void printLeftView(Node node) {
+		Queue<Node> q = new LinkedList<>();
+		q.add(node);
+		while(!q.isEmpty()) {
+			
+			int n= q.size();
+			for(int i =1; i<=n ;i++) {
+				
+				Node temp = q.poll();
+				if(n == i) {
+					System.out.println( temp.data + " ");
+				}
+				if(temp.right !=null) {
+					q.add(temp.right);
+				}
+				if(temp.left != null) {
+					q.add(temp.left);
+				}
+				
+			}
+		}
+	}
+	
+	Stack<Node> it;
+	public void treeIterator(Node node) {
+		it = new Stack<>();
+		while(node!= null) {
+			it.push(node);
+			node = node.left;
+		}
+		
+	}
+	
+	public boolean hasNext() {
+		return !it.isEmpty();
+	}
+	
+	public int next() {
+		
+		Node temp =it.pop();
+		int result = temp.data;
+		if(temp.right != null) {
+			temp = temp.right;
+			while(temp != null) {
+				 it.push(temp);
+				 temp = temp.left;
+			}
+			
+		}
+		return result;
+		
+	}
 }
