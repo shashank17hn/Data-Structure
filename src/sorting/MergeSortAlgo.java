@@ -6,7 +6,7 @@ public class MergeSortAlgo {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+	
 		int[] arr = {5,2,1,2,6,9};
 		mergeSort(arr, new int[arr.length], 0, arr.length-1);
 		Arrays.stream(arr).forEach(x -> System.out.println(x));

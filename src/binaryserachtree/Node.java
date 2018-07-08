@@ -7,7 +7,7 @@ import java.util.Stack;
 
 public class Node {
 	
-	
+
 	Node left , right;
 	int data;
 	
@@ -496,4 +496,49 @@ public class Node {
 		return result;
 		
 	}
+	
+
+	public boolean lowestCommonAncestorUtils(Node root, int val , Stack<Integer> ancestor) {
+		 if(root == null)
+			return false;
+		 if(root.data == val) {
+			 ancestor.push(root.data);
+			 return true;
+		 }
+		 if(root.left != null || root.right != null) {
+			boolean l = lowestCommonAncestorUtils(root.left , val , ancestor);
+			if(l)
+			ancestor.push(root.data);
+			boolean r =  lowestCommonAncestorUtils(root.right , val, ancestor);
+			if(r)
+				ancestor.push(root.data);
+				return r||l;
+	
+		 }
+		 else return false;
+		
+	}
+	
+	
+	public void lowestCommonAncestor(Node root, int val1 , int val2) {
+		Stack<Integer> ancestor1 = new Stack<>();
+		Stack<Integer> ancestor2 = new Stack<>();
+		   lowestCommonAncestorUtils(root, val1 , ancestor1);
+		   lowestCommonAncestorUtils(root, val2 , ancestor2);
+		   int ans= -1;
+		   System.out.println(ancestor1);
+		   System.out.println(ancestor2);
+		   while(!ancestor1.isEmpty() && !ancestor2.isEmpty()) {
+			   if(ancestor1.peek() == ancestor2.peek()) {
+				  ans = ancestor1.pop();
+				  ancestor2.pop();
+			   }else {
+			   ancestor1.pop();
+			   ancestor2.pop();
+			   }
+		   }
+		   System.out.println(ans);
+	}
+	
+	
 }

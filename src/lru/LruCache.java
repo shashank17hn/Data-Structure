@@ -30,7 +30,7 @@ public class LruCache<K, V> extends LinkedHashMap<K, V> {
 		}
 		else {
 			if(curSize>= size)
-				map.rem
+			
 			map.put(key, value);
 		}
 	}*/

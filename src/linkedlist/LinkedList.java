@@ -6,7 +6,7 @@ public class LinkedList {
 
 	Node head;
 	
-	
+
 	// inserting into a list from LAST
 	public void appendLast(int value) {
 		if(head == null) {
@@ -135,7 +135,7 @@ public class LinkedList {
 		//	System.out.println("liste ready");
 			node3 = node3.next;
 		}
-		System.out.println("liste ready");
+		System.out.println("list ready");
 		showListMergedList(head1.next);
 	}
 	
@@ -368,6 +368,21 @@ public class LinkedList {
 		showListMergedList(head);
 	}
 	
+	
+	
+	public boolean detectCycle() {
+		Node fast = head;
+		Node slow = head;
+		
+		while(slow != null && fast != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+			if(slow == fast) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 	

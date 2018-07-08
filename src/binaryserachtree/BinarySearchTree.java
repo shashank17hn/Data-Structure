@@ -165,7 +165,16 @@ public class BinarySearchTree {
 	        root.treeIterator(root);
 	        while(root.hasNext()) {
 	        System.out.println(root.next());
+	
 	        }
+	        
+	        System.out.println("---------------ancestor---------------------");
+	        root.lowestCommonAncestor(root, 4,4);
+	        root.lowestCommonAncestor(root, 4,2);
+	        root.lowestCommonAncestor(root, 4,3);
+	       // System.out.println(root.ancestor1);
+	       // System.out.println(root.ancestor2);
+	        // System.out.println(root.ancestor);
 	}
 
 }
