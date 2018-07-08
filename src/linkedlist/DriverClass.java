@@ -104,10 +104,13 @@ public class DriverClass {
 	  list.appendLast(2);
 	  list.appendLast(3);
 	  list.appendLast(4);
+	  list.appendLast(2);
+	  list.appendLast(1);
 //	  list.appendLast(1);
 	  list.showList();
-	  System.out.println();
-	  list.swapNode();
+	  System.out.println(list.isPalindrome());
+//	  System.out.println();
+	 // list.swapNode();
 //	  list.removeDuplicatesFromUnsorted();
 	//  list.addOddAndEvenNodes();
 	//  list.removeDuplicates();

@@ -1,6 +1,7 @@
 package linkedlist;
 
 import java.util.HashSet;
+import java.util.Stack;
 
 public class LinkedList {
 
@@ -382,6 +383,23 @@ public class LinkedList {
 			}
 		}
 		return false;
+	}
+	
+	public boolean isPalindrome() {
+		Node node = head;
+		Stack<Integer> stack = new Stack();
+		
+		while(node != null) {
+			stack.push(node.data);
+			node = node.next;
+		}
+		node = head;
+		while(node != null) {
+			if(node.data !=  stack.pop())
+				return false;
+			node = node.next;
+		}
+		return true;
 	}
 	
 	
