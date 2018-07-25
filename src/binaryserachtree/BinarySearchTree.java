@@ -4,6 +4,7 @@ import java.awt.geom.FlatteningPathIterator;
 
 public class BinarySearchTree {
 	
+	static Node root2;
 	static Node root1;
 	static  Node root;
 	
@@ -146,15 +147,24 @@ public class BinarySearchTree {
       / \   
      4   5   */
 		
-
+		
+	 /*  1
+	    / \
+	   2   3
+	  /     \
+	 4       6        
+	/	
+   5       */
 	        tree.root = new Node(1);
 	        tree.root.left = new Node(2);
 	        tree.root.right = new Node(3);
+	        tree.root.right.right = new Node(6);
 	        tree.root.left.left = new Node(4);
-	        tree.root.left.right = new Node(5);
+	        tree.root.left.left.left = new Node(5);
+	       // tree.root.left.right = new Node(5);
 	       // tree.root.left.left.left = new Node(8);
 			
-	        System.out.println(root.isTreeBalanced(root));
+	   /*     System.out.println(root.isTreeBalanced(root));
 			System.out.println("---------------Right view---------------------");
 	        root.printRightView(root);
 	        System.out.println("---------------Left view---------------------");
@@ -175,6 +185,44 @@ public class BinarySearchTree {
 	       // System.out.println(root.ancestor1);
 	       // System.out.println(root.ancestor2);
 	        // System.out.println(root.ancestor);
+*/	        
+	        
+	   	 /*  3
+		    / \
+		   2   2
+		  /     \
+		 1       4   
+		 
+		      
+		     2
+		    / \
+		   3   3
+		  /     \
+		 1       4 
+		      
+		      */
+	        
+	        
+	       // root.displayNodeWithNoSibling(root);
+	        
+	        BinarySearchTree tree1 = new BinarySearchTree();
+	        tree1.root1 = new Node(3);
+	        tree1.root1.left = new Node(2);
+	        tree1.root1.left.left = new Node(1);
+	        tree1.root1.right = new Node(2);
+	        tree1.root1.right.right = new Node(4);
+	        
+	        BinarySearchTree tree2 = new BinarySearchTree();
+	        tree2.root2 = new Node(2);
+	        tree2.root2.left = new Node(3);
+	        tree2.root2.left.left = new Node(1);
+	        tree2.root2.right = new Node(3);
+	        tree2.root2.right.right = new Node(4);
+	      //  tree2.root2.right.left = new Node(4);
+	        
+	        System.out.println(root1.isIsomorphic(root1, root2));
+	        
+	        System.out.println(root1.memo);
 	}
 
 }

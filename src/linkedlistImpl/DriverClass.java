@@ -1,14 +1,14 @@
-package linkedlist;
+package linkedlistImpl;
 
 public class DriverClass {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-	  LinkedList list = new LinkedList();
-	  LinkedList list2 = new LinkedList();
+	  LinkedLists list = new LinkedLists();
+	  LinkedLists list2 = new LinkedLists();
 	  
-	  LinkedList list3 = new LinkedList();
+	  LinkedLists list3 = new LinkedLists();
 	  
 	 
 	  list3.appendLast(1);
@@ -115,6 +115,17 @@ public class DriverClass {
 	//  list.addOddAndEvenNodes();
 	//  list.removeDuplicates();
 	 // list.showList();
+	// I :  10 4 5 3 6 
+	// O : -4 -1 5 4 10
+	  LinkedLists list4 = new LinkedLists();
+	  list4.appendLast(10);
+	  list4.appendLast(4);
+	  list4.appendLast(5);
+	  list4.appendLast(3);
+	  list4.appendLast(6);
+	 // list4.appendLast(1);
+	  
+	  list4.manipulateLinkedList();
 	}
 
 }

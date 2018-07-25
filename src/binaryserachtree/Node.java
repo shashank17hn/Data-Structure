@@ -1,7 +1,9 @@
 package binaryserachtree;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -540,5 +542,95 @@ public class Node {
 		   System.out.println(ans);
 	}
 	
+  /* 1
+    / \
+   2   3
+  /    
+ 4     */
+	
+	
+	
+	public void displayNodeWithNoSibling(Node root) {
+		if(root.left != null && root.right != null) {
+			displayNodeWithNoSiblingUtils(root.left , root);
+			displayNodeWithNoSiblingUtils(root.right , root);
+		}
+		if(root.left != null && root.right == null) {
+			displayNodeWithNoSiblingUtils(root.left, root);
+		}
+		if(root.left == null && root.right != null) {
+			displayNodeWithNoSiblingUtils(root.right , root);
+		}
+	}
+	
+	public void displayNodeWithNoSiblingUtils(Node child , Node parent) {
+	     
+		if(parent.right==null || parent.left ==null) {
+			System.out.println(child.data);
+		}
+	    if(child.left!= null) {
+	    	displayNodeWithNoSiblingUtils(child.left, child);
+	    }
+	    if(child.right!= null) {
+	    	displayNodeWithNoSiblingUtils(child.right, child);
+	    }
+	
+	}
+	
+ /*  3
+    / \
+   2   2
+  /     \
+ 1       4   
+ 
+      
+     2
+    / \
+   3   3
+  /     \
+ 1       4 
+      
+      */
+	
+	
+	Map<Integer, Integer> memo = new HashMap<>();
+	
+	public boolean isIsomorphic(Node root1 , Node root2) {
+				memo.put(root1.data, root2.data);
+				return isIsomorphicUtils(root1, root2);
+	}
+	
+	
+	public boolean isIsomorphicUtils(Node root1 , Node root2) {
+		boolean left = false;
+		boolean right = false;
+		if(root1.left != null && root2.left != null) {
+			left = isIsomorphicUtils(root1.left, root2.left);
+		}
+		if(root1.right != null && root2.right != null) {
+			right =isIsomorphicUtils(root1.right, root2.right);
+		}
+		if((root1.left == null && root2.left ==null) || (root1.right == null && root2.right ==null)) {
+			if(memo.containsKey(root1.data)){
+				if(memo.get(root1.data) == root2.data) {
+					//System.out.println(root1.data + " " + root2.data);
+				  return true; 	
+				}
+				else return false;
+			}
+			else if(memo.containsKey(root2.data)) {
+				if(memo.get(root2.data) == root1.data) {
+					//System.out.println(root1.data + " " + root2.data);
+				  return true; 	
+				}
+				else return false;
+			}
+			else {
+				memo.put(root1.data, root2.data);
+				return true;
+				}
+		}
+		return left && right;
+	}
 	
 }

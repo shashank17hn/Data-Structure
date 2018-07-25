@@ -1,9 +1,12 @@
-package linkedlist;
+package linkedlistImpl;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
-public class LinkedList {
+
+public class LinkedLists {
 
 	Node head;
 	
@@ -403,7 +406,34 @@ public class LinkedList {
 	}
 	
 	
-	
-	
-	
+	public void manipulateLinkedList() {
+		// I :  10 4 5 3 6 
+		// O : -4 -1 5 4 10
+		Node current = head;
+		Stack<Integer> stack= new Stack<>();
+		Queue<Integer> queue = new LinkedList<>();
+		while(current != null) {
+			stack.push(current.data);
+			queue.offer(current.data);
+			current = current.next;
+		}
+		Node newHead = new Node(0);
+		Node newCurr = newHead;
+			for(int i=0 ; i<= (stack.size()/2) ; i++) {
+				newCurr.next = new Node(stack.pop()- queue.poll());
+				newCurr = newCurr.next;
+			}
+			while(!stack.isEmpty()) {
+				newCurr.next = new Node(stack.pop());
+				newCurr = newCurr.next;
+			}
+		
+		showListMergedList(newHead.next);
+	}
+		
 }
+	
+	
+	
+	
+
